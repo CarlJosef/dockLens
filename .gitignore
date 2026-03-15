@@ -1,0 +1,69 @@
+# --------------------
+# OS / Editor
+# --------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+
+.idea/
+*.swp
+
+# --------------------
+# Python (API)
+# --------------------
+.venv/
+api/.venv/
+**/__pycache__/
+**/*.py[cod]
+**/*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+*.log
+
+# --------------------
+# Node / Vite (Web)
+# --------------------
+web/node_modules/
+web/dist/
+web/.vite/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.tsbuildinfo
+
+# --------------------
+# Build / Artifacts
+# --------------------
+dist/
+build/
+out/
+coverage/
+
+# --------------------
+# Env / Secrets
+# --------------------
+.env
+.env.*
+!.env.example
+
+# --------------------
+# Docker
+# --------------------
+**/.docker/
+docker-compose.override.yml
+
+# --------------------
+# Local docs / exports (optional)
+# --------------------
+*.tmp
+*.bak
