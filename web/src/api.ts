@@ -9,6 +9,7 @@ export type Finding = {
 };
 
 export type AnalyzeResponse = {
+  provider: string;
   summary: string;
   findings: Finding[];
 };

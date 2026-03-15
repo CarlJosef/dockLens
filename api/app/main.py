@@ -1,8 +1,12 @@
+import os
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from .providers import get_analyzer
 
 from .schemas import AnalyzeRequest, AnalyzeResponse
-from .analyze import analyze_requirements, analyze_general
+
+# from .analyze import analyze_requirements, analyze_general - not inuse since we have provider abstraction now.
 
 
 app = FastAPI(title="DocLens API", version="0.1.0")
@@ -22,9 +26,7 @@ def healthz():
 
 @app.post("/v1/analyze", response_model=AnalyzeResponse)
 def analyze(req: AnalyzeRequest):
-    if req.mode == "requirements":
-        summary, findings = analyze_requirements(req.text)
-    else:
-        summary, findings = analyze_general(req.text)
-
-    return AnalyzeResponse(summary=summary, findings=findings)
+    analyzer = get_analyzer()
+    summary, findings = analyzer.analyze(req.text, req.mode)
+    provider = os.getenv("DOCLENS_PROVIDER", "heuristic").strip().lower()
+    return AnalyzeResponse(provider=provider, summary=summary, findings=findings)

@@ -9,7 +9,7 @@ services:
     build:
       context: ./web
     environment:
-      - VITE_API_BASE=http://localhost:8000
+      - VITE_API_BASE=http://api:8000
     ports:
       - "5174:80"
     depends_on:

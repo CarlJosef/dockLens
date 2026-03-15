@@ -19,5 +19,6 @@ class Finding(BaseModel):
 
 
 class AnalyzeResponse(BaseModel):
+    provider: str
     summary: str
     findings: List[Finding]

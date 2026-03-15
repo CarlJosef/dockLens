@@ -62,7 +62,7 @@ export default function App() {
           Analyze
         </button>
 
-        <span style={{ opacity: 0.7 }}>API: {apiBase}</span>
+        <span style={{ opacity: 0.7 }}>API (browser): {apiBase}</span>
       </div>
 
       <div
@@ -114,6 +114,15 @@ export default function App() {
                 }}
               >
                 <b>Summary:</b> {result.summary}
+                <div
+                  style={{
+                    padding: 12,
+                    background: "#f6f6f6",
+                    border: "1px solid #ddd",
+                  }}
+                >
+                  <b>Provider:</b> {result.provider}
+                </div>
               </div>
 
               {result.findings.length === 0 ? (

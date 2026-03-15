@@ -2,6 +2,10 @@
 
 - Windows + Docker, VS Code-first.
 
+# Screenshot
+
+![DocLens UI](docs/screenshot-ui.png)
+
 ## Activate python enviroment before
 
 **.\activare.ps1**
@@ -10,12 +14,13 @@
 
 ```Open powershell in VScode and run :
 
-docker compose up --build
+cd: X:\pathway\of\dockLens eg:  X:\dev\dockLens --> docker compose up --build
+
 ```
 
 Stop it by write :
 
-docker compose down
+docker compose down or q in server terminal window for stop server running.
 
 # DocLens
 
