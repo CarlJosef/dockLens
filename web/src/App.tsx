@@ -145,15 +145,21 @@ export default function App() {
           <h3>Output</h3>
 
           {error && (
-            <pre
+            <div
               style={{
-                padding: 12,
+                ...cardStyle,
                 background: "#fff3f3",
-                border: "1px solid #ffd1d1",
+                borderColor: "#ffd1d1",
               }}
             >
-              {error}
-            </pre>
+              <div style={{ fontWeight: 700, marginBottom: 6 }}>Error</div>
+              <pre style={{ margin: 0, whiteSpace: "pre-wrap" }}>{error}</pre>
+              {/(ReadTimeout|timed out|timeout)/i.test(error) && (
+                <div style={{ marginTop: 8, ...subtleText }}>
+                  Try increasing <code>OLLAMA_TIMEOUT_S</code>.
+                </div>
+              )}
+            </div>
           )}
 
           {loading && (
