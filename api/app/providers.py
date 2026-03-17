@@ -46,21 +46,32 @@ class LlmAnalyzer(Analyzer):
         return self._impl.analyze(text=text, mode=mode)
 
 
-def get_analyzer() -> Analyzer:
-    provider = os.getenv("DOCLENS_PROVIDER", "heuristic").strip().lower()
 
-    if provider == "heuristic":
+def get_analyzer_for_provider(provider: str | None) -> Analyzer:
+    """Resolve analyzer from a provider string (request-level), with env fallback."""
+    p = (provider or os.getenv("DOCLENS_PROVIDER", "heuristic")).strip().lower()
+
+    if p == "heuristic":
         return HeuristicAnalyzer()
 
-    if provider == "llm":
-        backend = os.getenv("LLM_BACKEND", "").strip().lower()
+    # Accept both "llm" (env-style) and "llm:<backend>" (request-style)
+    if p == "llm" or p.startswith("llm:"):
+        backend = ""
+        if p.startswith("llm:"):
+            backend = p.split(":", 1)[1].strip().lower()
+        if not backend:
+            backend = os.getenv("LLM_BACKEND", "").strip().lower()
+
         if backend not in ("ollama", "openai"):
             raise ValueError(
-                f"Invalid LLM_BACKEND: {backend!r} (expected 'ollama' or 'openai')."
+                f"Invalid LLM backend: {backend!r} (expected 'ollama' or 'openai')."
             )
         return LlmAnalyzer(backend)
 
     raise ValueError(
-        f"Unknown DOCLENS_PROVIDER: {provider!r} (expected 'heuristic' or 'llm')."
+        f"Unknown provider: {p!r} (expected 'heuristic' or 'llm[:backend]')."
     )
+
+def get_analyzer() -> Analyzer:
+    return get_analyzer_for_provider(None)
 

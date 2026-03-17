@@ -2,7 +2,7 @@ import os
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .providers import get_analyzer
+from .providers import get_analyzer_for_provider
 from fastapi import HTTPException
 from .schemas import AnalyzeRequest, AnalyzeResponse
 
@@ -26,7 +26,7 @@ def healthz():
 
 @app.post("/v1/analyze", response_model=AnalyzeResponse)
 def analyze(req: AnalyzeRequest):
-    analyzer = get_analyzer()
+    analyzer = get_analyzer_for_provider(getattr(req, "provider", None))
 
     try:
         summary, findings = analyzer.analyze(req.text, req.mode)
