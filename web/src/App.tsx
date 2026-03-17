@@ -13,6 +13,7 @@ export default function App() {
   );
   const [mode, setMode] = useState<"requirements" | "general">("requirements");
   const [text, setText] = useState(sampleText);
+  const [useAi, setUseAi] = useState(false);
   const [result, setResult] = useState<AnalyzeResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -71,6 +72,7 @@ export default function App() {
       <div
         style={{
           display: "flex",
+          flexWrap: "wrap",
           gap: 12,
           alignItems: "center",
           marginBottom: 10,
@@ -82,6 +84,15 @@ export default function App() {
             <option value="requirements">requirements</option>
             <option value="general">general</option>
           </select>
+        </label>
+
+        <label style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <input
+            type="checkbox"
+            checked={useAi}
+            onChange={(e) => setUseAi(e.target.checked)}
+          />
+          Use AI (Ollama)
         </label>
 
         <button
@@ -97,6 +108,17 @@ export default function App() {
         </button>
 
         <span style={{ opacity: 0.7 }}>API (browser): {apiBase}</span>
+
+        <span style={{ opacity: 0.7 }}>
+          {useAi ? (
+            <>
+              Start stack with <code>docker-compose.llm.yml</code> • LLM may
+              take 1–3 minutes on CPU
+            </>
+          ) : (
+            <>Heuristic is fast and offline</>
+          )}
+        </span>
       </div>
 
       <div
