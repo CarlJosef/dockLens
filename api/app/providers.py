@@ -25,19 +25,42 @@ class HeuristicAnalyzer(Analyzer):
 
 
 class LlmAnalyzer(Analyzer):
+    def __init__(self, backend: str):
+        self.backend = backend
+
+        if backend == "ollama":
+            from .llm.ollama import OllamaAnalyzer
+            self._impl = OllamaAnalyzer()
+        elif backend == "openai":
+            self._impl = None
+        else:
+            self._impl = None
+
     def analyze(self, text: str, mode: str) -> tuple[str, List[Finding]]:
-        # Placeholder for future integration (OpenAI / Ollama / etc.)
-        raise RuntimeError(
-            "LLM provider selected (DOCLENS_PROVIDER=llm) but no LLM backend is configured yet."
-        )
+        if self.backend == "openai":
+            raise RuntimeError("OpenAI backend is not implemented yet.")
+        if self._impl is None:
+            raise RuntimeError(
+                f"LLM provider selected but backend '{self.backend}' is not implemented yet."
+            )
+        return self._impl.analyze(text=text, mode=mode)
 
 
 def get_analyzer() -> Analyzer:
     provider = os.getenv("DOCLENS_PROVIDER", "heuristic").strip().lower()
+
     if provider == "heuristic":
         return HeuristicAnalyzer()
+
     if provider == "llm":
-        return LlmAnalyzer()
+        backend = os.getenv("LLM_BACKEND", "").strip().lower()
+        if backend not in ("ollama", "openai"):
+            raise ValueError(
+                f"Invalid LLM_BACKEND: {backend!r} (expected 'ollama' or 'openai')."
+            )
+        return LlmAnalyzer(backend)
+
     raise ValueError(
         f"Unknown DOCLENS_PROVIDER: {provider!r} (expected 'heuristic' or 'llm')."
     )
+
