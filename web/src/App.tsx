@@ -15,17 +15,43 @@ export default function App() {
   const [text, setText] = useState(sampleText);
   const [result, setResult] = useState<AnalyzeResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const severityColor: Record<"low" | "medium" | "high", string> = {
+    low: "#e7f6ec",
+    medium: "#fff7e6",
+    high: "#ffecec",
+  };
+
+  const severityBorder: Record<"low" | "medium" | "high", string> = {
+    low: "#bfe6c9",
+    medium: "#ffd79a",
+    high: "#ffb3b3",
+  };
 
   async function onAnalyze() {
     setError(null);
     setResult(null);
+    setLoading(true);
     try {
       const out = await analyze(apiBase, text, mode);
       setResult(out);
     } catch (e: any) {
-      setError(e?.message ?? String(e));
+      const msg =
+        e?.detail ?? e?.response?.data?.detail ?? e?.message ?? String(e);
+      setError(msg);
+    } finally {
+      setLoading(false);
     }
   }
+
+  const cardStyle: React.CSSProperties = {
+    padding: 12,
+    background: "#f6f6f6",
+    border: "1px solid #ddd",
+    borderRadius: 10,
+  };
+
+  const subtleText: React.CSSProperties = { opacity: 0.75, fontSize: 13 };
 
   return (
     <div
@@ -58,8 +84,16 @@ export default function App() {
           </select>
         </label>
 
-        <button onClick={onAnalyze} style={{ padding: "10px 14px" }}>
-          Analyze
+        <button
+          onClick={onAnalyze}
+          disabled={loading}
+          style={{
+            padding: "10px 14px",
+            opacity: loading ? 0.7 : 1,
+            cursor: loading ? "not-allowed" : "pointer",
+          }}
+        >
+          {loading ? "Analyzing..." : "Analyze"}
         </button>
 
         <span style={{ opacity: 0.7 }}>API (browser): {apiBase}</span>
@@ -92,7 +126,16 @@ export default function App() {
             </pre>
           )}
 
-          {!error && !result && (
+          {loading && (
+            <div style={cardStyle}>
+              Running analysis...
+              <div style={subtleText}>
+                If AI is enabled (llm:*), this may take longer on CPU.
+              </div>
+            </div>
+          )}
+
+          {!loading && !error && !result && (
             <div
               style={{
                 padding: 12,
@@ -106,23 +149,19 @@ export default function App() {
 
           {result && (
             <div style={{ display: "grid", gap: 10 }}>
-              <div
-                style={{
-                  padding: 12,
-                  background: "#f6f6f6",
-                  border: "1px solid #ddd",
-                }}
-              >
-                <b>Summary:</b> {result.summary}
-                <div
-                  style={{
-                    padding: 12,
-                    background: "#f6f6f6",
-                    border: "1px solid #ddd",
-                  }}
-                >
+              <div style={cardStyle}>
+                <div>
                   <b>Provider:</b> {result.provider}
                 </div>
+                <div style={{ marginTop: 6 }}>
+                  <b>Summary:</b> {result.summary}
+                </div>
+                {result.provider.startsWith("llm:") && (
+                  <div style={{ marginTop: 6, ...subtleText }}>
+                    Local LLM analysis can be slow on CPU. Use heuristic mode
+                    for fast demos.
+                  </div>
+                )}
               </div>
 
               {result.findings.length === 0 ? (
@@ -140,9 +179,9 @@ export default function App() {
                   <div
                     key={f.id}
                     style={{
-                      padding: 12,
-                      background: "#f6f6f6",
-                      border: "1px solid #ddd",
+                      ...cardStyle,
+                      background: "#fff",
+                      borderColor: severityBorder[f.severity],
                     }}
                   >
                     <div
@@ -153,7 +192,18 @@ export default function App() {
                       }}
                     >
                       <b>{f.title}</b>
-                      <span>{f.severity.toUpperCase()}</span>
+                      <span
+                        style={{
+                          padding: "4px 10px",
+                          borderRadius: 999,
+                          border: `1px solid ${severityBorder[f.severity]}`,
+                          background: severityColor[f.severity],
+                          fontSize: 12,
+                          fontWeight: 700,
+                        }}
+                      >
+                        {f.severity.toUpperCase()}
+                      </span>
                     </div>
                     <div style={{ marginTop: 6 }}>{f.detail}</div>
                     {f.suggestion && (
