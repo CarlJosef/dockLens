@@ -1,0 +1,11 @@
+services:
+  api:
+    environment:
+      DOCLENS_PROVIDER: llm
+      LLM_BACKEND: ollama
+      OLLAMA_BASE_URL: http://host.docker.internal:11434
+      OLLAMA_MODEL: llama3.1
+      OLLAMA_TIMEOUT_S: 180
+
+
+
