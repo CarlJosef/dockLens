@@ -107,7 +107,15 @@ export default function App() {
           <textarea
             value={text}
             onChange={(e) => setText(e.target.value)}
-            style={{ width: "100%", height: 420 }}
+            style={{
+              width: "100%",
+              height: 420,
+              padding: 12,
+              fontFamily:
+                "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
+              fontSize: 14,
+              lineHeight: 1.4,
+            }}
           />
         </div>
 
@@ -136,13 +144,7 @@ export default function App() {
           )}
 
           {!loading && !error && !result && (
-            <div
-              style={{
-                padding: 12,
-                background: "#f6f6f6",
-                border: "1px solid #ddd",
-              }}
-            >
+            <div style={cardStyle}>
               Click <b>Analyze</b> to see results.
             </div>
           )}
@@ -165,15 +167,7 @@ export default function App() {
               </div>
 
               {result.findings.length === 0 ? (
-                <div
-                  style={{
-                    padding: 12,
-                    background: "#f6f6f6",
-                    border: "1px solid #ddd",
-                  }}
-                >
-                  No findings.
-                </div>
+                <div style={cardStyle}>No findings.</div>
               ) : (
                 result.findings.map((f) => (
                   <div
