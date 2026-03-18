@@ -13,6 +13,37 @@
 
 ---
 
+## What is DockLens?
+
+**DocLens** is a lightweight text analyzer for requirements and specs.
+It helps teams turn vague, “sounds good” statements into **clearer, more testable, structured findings**.
+
+Paste text in the UI, run an analysis, and get:
+
+- A **summary** of what was analyzed
+- A list of **findings** with **severity** (low/medium/high)
+- Actionable **suggestions** (e.g., define acceptance criteria, replace ambiguous terms)
+
+DocLens supports two execution modes:
+
+- **Heuristic (default):** fast, offline, great for demos and everyday use
+- **Local AI via Ollama (optional):** deeper language understanding with clear tradeoffs (latency/CPU)
+
+### Typical findings
+
+DocLens looks for patterns that reduce testability and clarity, such as:
+
+- **Ambiguous terms** (“robust”, “user-friendly”, “as soon as possible”)
+- **Hedging language** (“should” vs “must”)
+- **Missing acceptance criteria** (no measurable or Given/When/Then conditions)
+
+- Clear UI state while analysis runs (no “frozen” feeling)
+- Consistent card-based layout for readability
+- Transparent provider reporting (`heuristic` vs `llm:ollama`)
+- Simple Docker-based setup for quick onboarding
+
+---
+
 ## Screenshot
 
 ![DocLens UI](web/docs/screenshot-ui.png)
