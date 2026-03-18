@@ -18,11 +18,12 @@ export async function analyze(
   apiBase: string,
   text: string,
   mode: "requirements" | "general",
+  provider?: string,
 ) {
   const res = await fetch(`${apiBase}/v1/analyze`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ text, mode }),
+    body: JSON.stringify({ text, mode, provider }),
   });
 
   const bodyText = await res.text();
