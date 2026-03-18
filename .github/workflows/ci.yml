@@ -33,7 +33,7 @@ jobs:
           curl -fsS -X POST "http://localhost:8000/v1/analyze" \
             -H "Content-Type: application/json" \
             -d '{"text":"test","mode":"general"}' | tee /tmp/analyze.json
-          grep -q '"provider"' /tmp/analyze.json
+          grep -q '"provider":"heuristic"' /tmp/analyze.json
 
       - name: Wait for Web
         run: |
@@ -54,3 +54,4 @@ jobs:
       - name: Shutdown
         if: always()
         run: docker compose down --volumes
+
