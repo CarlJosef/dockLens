@@ -1,4 +1,4 @@
-## Stack
+# DocLens
 
 ![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white)
 ![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white)
@@ -7,7 +7,15 @@
 ![React](https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=0B0B0B)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
 ![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white)
-![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?logo=githubactions&logoColor=white)
+
+[![CI](https://img.shields.io/github/actions/workflow/status/CarlJosef/dockLens/ci.yml?branch=feat/ai-ollama&label=CI&logo=githubactions&logoColor=white)](https://github.com/CarlJosef/dockLens/actions/workflows/ci.yml)
+[![AI Smoke](https://img.shields.io/github/actions/workflow/status/CarlJosef/dockLens/ai-smoke.yml?branch=feat/ai-ollama&label=AI%20Smoke&logo=githubactions&logoColor=white)](https://github.com/CarlJosef/dockLens/actions/workflows/ai-smoke.yml)
+
+---
+
+## Screenshot
+
+![DocLens UI](web/docs/screenshot-ui.png)
 
 ## Run
 
@@ -36,7 +44,9 @@ docker compose up --build
 
 **Health**
 
+```bash
 curl http://localhost:8000/healthz
+```
 
 ---
 
@@ -48,15 +58,14 @@ curl -X POST http://localhost:8000/v1/analyze `-H "Content-Type: application/jso
 
 ## Frontend
 
-**Open the UI:**
+Open the UI (Docker Compose):
 
--http://localhost:5173
+- http://localhost:5174/
 
-CI Badge (optional)
+## CI
 
-If your workflow file is ci.yml, this usually works:
-
-https://img.shields.io/github/actions/workflow/status/CarlJosef/dockLens/ci.yml?branch=feat/ai-ollama
+[![CI](https://img.shields.io/github/actions/workflow/status/CarlJosef/dockLens/ci.yml?branch=feat/ai-ollama&label=CI&logo=githubactions&logoColor=white)](https://github.com/CarlJosef/dockLens/actions/workflows/ci.yml)
+[![AI Smoke](https://img.shields.io/github/actions/workflow/status/CarlJosef/dockLens/ai-smoke.yml?branch=feat/ai-ollama&label=AI%20Smoke&logo=githubactions&logoColor=white)](https://github.com/CarlJosef/dockLens/actions/workflows/ai-smoke.yml)
 
 ## License
 
