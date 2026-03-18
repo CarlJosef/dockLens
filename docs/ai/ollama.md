@@ -1,16 +1,20 @@
-# Ollama (lokal LLM) – krav för AI-läget
+## Local AI (Ollama) — Requirements for AI Mode
 
-För att använda DocLens med lokal AI-backend (Ollama) måste Ollama vara installerat och köras lokalt på din dator.
+![Ollama](https://img.shields.io/badge/Ollama-000000?logo=ollama&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white)
 
-## Installera Ollama
+DocLens can run with a local LLM backend using **Ollama**. To use AI mode, Ollama must be installed and running on your machine.
 
-Ladda ner Ollama här:
-https://ollama.com/download
+### Install Ollama
 
-## Uppdatera Ollama
+Download and install:
 
-- Windows/macOS: Ollama uppdaterar normalt automatiskt. Starta om Ollama vid uppdatering (tray/meny: Restart).
-- Linux: kör installationsscriptet igen:
+- https://ollama.com/download
+
+### Update Ollama
+
+- **Windows/macOS:** Ollama usually updates automatically. Restart Ollama from the tray/menu when needed.
+- **Linux:** Re-run the installer script:
 
 ```bash
 curl -fsSL https://ollama.com/install.sh | sh
